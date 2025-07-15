@@ -1,105 +1,126 @@
-Overview
-This project focuses on building a machine learning model to accurately predict flight ticket prices based on various features such as airline, source, destination, number of stops, duration, and days left for departure. The goal is to demonstrate a complete end-to-end machine learning workflow, from data loading and preprocessing to model training, evaluation, and hyperparameter tuning, culminating in generating price predictions for unseen data.
+# ✈️ Flight Price Prediction Project
 
-Features & Technologies Used
-Programming Language: Python
+## 📝 Overview
+This project focuses on building a machine learning model to accurately predict flight ticket prices based on various features such as:
 
-Core Libraries:
+- Airline
+- Source & destination
+- Number of stops
+- Duration
+- Days left for departure
 
-pandas (for data manipulation and analysis)
+The goal is to demonstrate a complete end-to-end ML workflow—from data loading and preprocessing to model training, evaluation, and hyperparameter tuning—culminating in generating price predictions for unseen data.
 
-numpy (for numerical operations)
+---
 
-scikit-learn (for machine learning models, preprocessing, model selection)
+## 🛠️ Features & Technologies Used
 
-matplotlib (for data visualization)
+### Programming Language
+- **Python**
 
-seaborn (for enhanced data visualization)
+### Core Libraries
+- `pandas` – Data manipulation and analysis  
+- `numpy` – Numerical operations  
+- `scikit-learn` – ML models, preprocessing, model selection  
+- `matplotlib` – Data visualization  
+- `seaborn` – Enhanced data visualization  
+- `xgboost` – XGBoost Regressor  
+- `lightgbm` – LightGBM Regressor  
 
-xgboost (for XGBoost Regressor)
+### Machine Learning Models
+- Linear Regression  
+- Ridge Regression  
+- Lasso Regression  
+- Decision Tree Regressor  
+- Random Forest Regressor  
+- Gradient Boosting Regressor  
+- XGBoost Regressor  
+- LightGBM Regressor  
+- K-Neighbors Regressor  
 
-lightgbm (for LightGBM Regressor)
+### Techniques Used
+- Data Cleaning (duplicates, outliers)
+- Feature Engineering
+- One-Hot Encoding
+- Standard Scaling
+- Mean/Mode Imputation
+- Train-Validation Split
+- Cross-Validation
+- Hyperparameter Tuning (`RandomizedSearchCV`)
 
-Machine Learning Models: Linear Regression, Ridge, Lasso, Decision Tree, Random Forest, Gradient Boosting, XGBoost, LightGBM, K-Neighbors Regressor.
+---
 
-Techniques: Data Cleaning (Duplicates, Outliers), Feature Engineering, One-Hot Encoding, Standard Scaling, Mean/Mode Imputation, Train-Validation Split, Cross-Validation, Hyperparameter Tuning (RandomizedSearchCV).
+## 📂 Dataset
 
-Dataset
-The project utilizes a dataset containing historical flight information and their corresponding prices. It comprises:
+The project utilizes a dataset containing historical flight information and corresponding prices:
 
-train.csv: Training data with features and the target variable (price).
+- **`train.csv`** – Training data with features and target variable (`price`)  
+- **`test.csv`** – Test data with features for price prediction  
+- **`sample_submission.csv`** – Submission format sample  
 
-test.csv: Test data with features for which prices need to be predicted.
+**Key Features Include:**
+- `airline`, `source`, `destination`, `stops`, `duration`, `days_left`, `departure_time`, `arrival_time`, `class`, `flight`
 
-sample_submission.csv: A sample file illustrating the required submission format.
+---
 
-Key features include: airline, source, destination, stops, duration, days_left, departure_time, arrival_time, class, and flight number.
+## 🔁 Project Structure & Workflow
 
-Project Structure & Workflow
-The project follows a standard machine learning pipeline:
+### 1. **Data Loading & Initial Setup**
+- Load all CSV files: `train.csv`, `test.csv`, `sample_submission.csv`
+- Separate target variable (`price`)
+- Identify unique flight IDs
 
-Data Loading & Initial Setup:
+### 2. **Initial Feature Engineering**
+- Convert `stops` from categories to numerical values
+- Ensure `flight` numbers are treated as strings
 
-Loading train.csv, test.csv, and sample_submission.csv.
+### 3. **Data Cleaning**
+- **Duplicates:** Remove duplicate rows from training data  
+- **Outliers:** Use IQR method for detecting and capping outliers in `duration` and `days_left`
 
-Separating target variable (price) and identifying unique flight IDs.
+### 4. **Data Preprocessing Pipeline**
+- **Missing Values:** Mean imputation for numerics, mode for categoricals  
+- **Feature Scaling:** `StandardScaler` for numerical features  
+- **Categorical Encoding:** `OneHotEncoder`  
+- **Pipeline:** Combine transformations using `ColumnTransformer` and `Pipeline` for consistency
 
-Initial Feature Engineering:
+### 5. **Exploratory Data Analysis (EDA)**
+- Histograms and box plots for price distribution  
+- Correlation analysis using scatter plots  
+- Box plots and count plots for categorical feature impact
 
-Converting categorical 'stops' feature (zero, one, two_or_more) into numerical values.
+### 6. **Model Training & Comparison**
+- Split data into training and validation sets (80/20)
+- Train multiple models:
+  - Linear, Tree-based, Boosting, and KNN models
+- Evaluate using:
+  - **RMSE** (Root Mean Squared Error)
+  - **R² Score**
+- Present results in a comparison table
 
-Ensuring 'flight' numbers are treated as strings.
+### 7. **Hyperparameter Tuning**
+- Use `RandomizedSearchCV` for:
+  - Random Forest  
+  - XGBoost  
+  - LightGBM  
+- Optimize based on **negative mean squared error**
 
-Data Cleaning:
+### 8. **Final Model Training & Prediction**
+- Select the best model from tuning results
+- Train on full dataset
+- Predict on test set
+- Ensure predictions are non-negative
 
-Duplicate Handling: Identifying and removing duplicate rows in the training data to ensure unique observations.
+### 9. **Submission File Generation**
+- Create `submission.csv` with `flight` ID and predicted `price`
+- Format as per competition requirements
 
-Outlier Handling: Detecting outliers in numerical features (duration, days_left) using the Interquartile Range (IQR) method and applying capping to mitigate their influence.
+---
 
-Data Preprocessing Pipeline:
+## ✅ Results & Learnings
+This project showcases the practical implementation of a full ML pipeline, comparison of multiple regression models, and effective use of hyperparameter tuning. It demonstrates model deployment readiness for real-world pricing predictions.
 
-Missing Value Imputation: Using mean for numerical features and most frequent for categorical features.
+---
 
-Feature Scaling: Applying StandardScaler to numerical features.
-
-Categorical Encoding: Using OneHotEncoder for categorical features.
-
-Assembling these steps into a ColumnTransformer and Pipeline for consistent transformations on both training and test data.
-
-Exploratory Data Analysis (EDA):
-
-Analyzing the distribution of the target variable (price) using histograms and box plots.
-
-Investigating relationships between numerical features (e.g., duration, days_left) and price via scatter plots and correlation.
-
-Exploring the impact of categorical features (e.g., airline, source, class) on price using count plots and box plots.
-
-Model Training & Comparison:
-
-Splitting the processed training data into training and validation sets (80/20 split) to evaluate generalization.
-
-Training multiple diverse regression models, including Linear models, Tree-based models (Decision Tree, Random Forest), and Boosting models (Gradient Boosting, XGBoost, LightGBM), and K-Neighbors Regressor.
-
-Evaluating each model's performance on the validation set using RMSE and R2 score.
-
-Presenting a comparative table of model results.
-
-Hyperparameter Tuning:
-
-Performing hyperparameter optimization using RandomizedSearchCV on three top-performing ensemble models (Random Forest, LightGBM, XGBoost).
-
-Searching for optimal parameter combinations to maximize model performance (measured by negative mean squared error).
-
-Final Model Training & Prediction:
-
-Selecting the best model configuration based on tuning results.
-
-Training the chosen final_model on the entire processed training dataset.
-
-Generating predictions on the unseen X_test_processed data.
-
-Ensuring all predictions are non-negative.
-
-Submission File Generation:
-
-Creating a submission.csv file with flight IDs and the predicted prices, formatted for competition submission.
+## 📬 Contact
+For questions or collaboration, feel free to reach out at: **Kashikag2004@gmail.com**
